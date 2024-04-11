@@ -1,0 +1,161 @@
+create database andromeda;
+
+use andromeda;
+
+CREATE TABLE granciudad (
+Id INT PRIMARY KEY,
+nombre VARCHAR (100),
+poblacion INT);
+
+
+
+INSERT INTO granciudad (id, nombre, poblacion) VALUES
+(1, "madrid",4000000),
+(30, "barcelona", 2000000),
+(31, "valencia", 1500000),
+(40, "madrid",4000000);
+
+
+SELECT * from granciudad;
+
+
++----+-----------+-----------+
+| Id | nombre    | poblacion |
++----+-----------+-----------+
+|  1 | madrid    |   4000000 |
+| 30 | barcelona |   2000000 |
+| 31 | valencia  |   1500000 |
+| 40 | madrid    |   4000000 |
++----+-----------+-----------+
+
+
+SELECT id,nombre FROM granciudad;
+
++----+-----------+
+| id | nombre    |
++----+-----------+
+|  1 | madrid    |
+| 30 | barcelona |
+| 31 | valencia  |
+| 40 | madrid    |
++----+-----------+
+
+SELECT DISTINCT nombre,poblacion FROM granciudad;
+
++-----------+-----------+
+| nombre    | poblacion |
++-----------+-----------+
+| madrid    |   4000000 |
+| barcelona |   2000000 |
+| valencia  |   1500000 |
++-----------+-----------+
+
+SELECT * from granciudad WHERE poblacion >=2000000;
+
++----+-----------+-----------+
+| Id | nombre    | poblacion |
++----+-----------+-----------+
+|  1 | madrid    |   4000000 |
+| 30 | barcelona |   2000000 |
+| 40 | madrid    |   4000000 |
++----+-----------+-----------+
+
+SELECT * from granciudad WHERE poblacion >= 2000000 AND id > 10;
+
++----+-----------+-----------+
+| Id | nombre    | poblacion |
++----+-----------+-----------+
+| 30 | barcelona |   2000000 |
+| 40 | madrid    |   4000000 |
++----+-----------+-----------+
+
+CREATE TABLE lista (
+Id INT PRIMARY KEY,
+nombre VARCHAR (25));
+
+
+INSERT INTO lista (id, nombre) VALUES
+(1, "paco"),
+(2, "alfonso"),
+(3, "Ana"),
+(4, "yasmina"),
+(5, "Babet");
+
+
+select * from lista limit 1,2;
+
++----+---------+
+| Id | nombre  |
++----+---------+
+|  2 | alfonso |
+|  3 | Ana     |
++----+---------+
+
+select * from lista limit 2,2;
+
++----+---------+
+| Id | nombre  |
++----+---------+
+|  3 | Ana     |
+|  4 | yasmina |
++----+---------+
+
+
+AGRUPAR FILAS
+
+create table muestras(
+ciudad VARCHAR(40),
+fecha DATE,
+temperatura TINYINT);
+
+
+INSERT INTO muestras (ciudad, fecha, temperatura) VALUES
+("Madrid","2005-03-17",23),
+("París","2005-03-17",16),
+("Berlín","2005-03-17",15),
+("Madrid","2005-03-18",25),
+("Madrid","2005-03-19",24),
+("Berlín","2005-03-19",18);
+
+
+select * from muestras;
+
++--------+------------+-------------+
+| ciudad | fecha      | temperatura |
++--------+------------+-------------+
+| Madrid | 2005-03-17 |          23 |
+| París  | 2005-03-17 |          16 |
+| Berlín | 2005-03-17 |          15 |
+| Madrid | 2005-03-18 |          25 |
+| Madrid | 2005-03-19 |          24 |
+| Berlín | 2005-03-19 |          18 |
++--------+------------+-------------+
+
+SELECT ciudad from muestras GROUP BY ciudad;
+
++--------+
+| ciudad |
++--------+
+| Madrid |
+| París  |
+| Berlín |
++--------+
+
+SELECT ciudad, COUNT(*) AS cuenta FROM muestras GROUP BY ciudad;
+
++--------+--------+
+| ciudad | cuenta |
++--------+--------+
+| Madrid |      3 |
+| París  |      1 |
+| Berlín |      2 |
++--------+--------+
+
+SELECT ciudad, MAX(temperatura) FROM muestras
+GROUP BY ciudad HAVING MAX(temperatura) >16;
++--------+------------------+
+| ciudad | MAX(temperatura) |
++--------+------------------+
+| Madrid |               25 |
+| Berlín |               18 |
++--------+------------------+
